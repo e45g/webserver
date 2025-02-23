@@ -69,4 +69,6 @@ void handle_sigint(int sig);
 void send_json_response(int client_fd, ResponseStatus status, const char *json);
 void send_string(int client_fd, char *str);
 
+void server_run(void);
+
 #endif

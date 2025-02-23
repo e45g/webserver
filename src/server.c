@@ -407,7 +407,7 @@ void handle_sigint(int sig) {
     exit(0);
 }
 
-int main(void) {
+void server_run(void) {
     if(remove("log.txt") != 0){
         perror("Error deleting log.txt");
     }
@@ -421,11 +421,12 @@ int main(void) {
     result = load_env(".env");
     if(result != 0) LOG("Invalid env file.");
 
-    result = db_init("games.db");
-    if(result != 0) handle_critical_error("db_init failed", 0);
-
-    db_exec("CREATE TABLE IF NOT EXISTS games (id TEXT PRIMARY KEY NOT NULL, created_at DATE NOT NULL, updated_at DATE, name TEXT NOT NULL, difficulty TEXT NOT NULL, game_state TEXT NOT NULL, board TEXT NOT NULL);", NULL, 0, NULL);
-    db_execute("DELETE FROM games;", NULL, 0);
+    // Example of database usage
+    // result = db_init("games.db");
+    // if(result != 0) handle_critical_error("db_init failed", 0);
+    //
+    // db_exec("CREATE TABLE IF NOT EXISTS games (id TEXT PRIMARY KEY NOT NULL, created_at DATE NOT NULL, updated_at DATE, name TEXT NOT NULL, difficulty TEXT NOT NULL, game_state TEXT NOT NULL, board TEXT NOT NULL);", NULL, 0, NULL);
+    // db_execute("DELETE FROM games;", NULL, 0);
 
     const int PORT = get_port();
     struct epoll_event ev, events[MAX_EVENTS];
@@ -466,7 +467,7 @@ int main(void) {
     result = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, sckt, &ev);
     if(result < 0) handle_critical_error("epoll ctl failed.", sckt);
 
-    LOG("Server listening on port %d", PORT);
+    LOG("Server running on http://0.0.0.0:%d", PORT);
 
     load_routes();
     LOG("Routes loaded.");
@@ -509,5 +510,4 @@ int main(void) {
     db_close();
     close(sckt);
     close(epoll_fd);
-    return 0;
 }
