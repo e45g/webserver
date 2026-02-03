@@ -1,0 +1,5 @@
+server
+cxc
+log.txt
+src/cxc/*
+.env

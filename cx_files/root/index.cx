@@ -1,0 +1,31 @@
+({
+    char *title;
+})
+
+#include <string.h>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{=props->title}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta
+  name="description"
+  content="Example :)"/>
+</head>
+
+<body>
+<pre>
+{{=props->title}}
+{{
+    char x[256] = {0};
+    int len = strlen(props->title);
+    memset(x, '=', len);
+    fast_strcat(output, x);
+}}
+
+Example website
+
+</pre>
+</body>
+</html>
